@@ -6,37 +6,40 @@ using System.Web.Http;
 
 namespace JJISWebMonitor.Controllers
 {
-    public class ResponseTimeController : ApiController
-    {
-       public string GetResponseTime()
-       {
-         var webRequest = (HttpWebRequest)WebRequest.Create(new Uri("https://www.jjis.oregon.gov/staticcontent/connectivitytest.html"));
-
-         var sw = Stopwatch.StartNew();
-
+   public class ResponseTimeController : ApiController
+   {
+      public string GetResponseTime([FromUri] string uri)
+      {     
          try
          {
-            var response = (HttpWebResponse)webRequest.GetResponse();
-            using (var responseStream = response.GetResponseStream())
-            {
-               if (responseStream == null)
-                  return $"Response was null.  Response: {response?.StatusCode} {response?.StatusDescription}";
-
-               using (var sr = new StreamReader(responseStream))
-               {
-                  Trace.WriteLine(sr.ReadToEnd());
-               }
-
-               sw.Stop();
-            }
+            return $"{MeasureRequestTime(uri)} ms";
          }
-         catch (WebException ex)
+         catch (Exception ex)
          {
             return $"{ex.Message}";
          }
-
-
-         return $"{sw.ElapsedMilliseconds} ms";
       }
-    }
+
+      private long MeasureRequestTime(string uri)
+      {
+         var webRequest = (HttpWebRequest)WebRequest.Create(new Uri(uri));
+         var sw = Stopwatch.StartNew();
+         var response = (HttpWebResponse)webRequest.GetResponse();
+         using (var responseStream = response.GetResponseStream())
+         {
+            if (responseStream == null)
+               throw new Exception($"Response was null.  Response: {response?.StatusCode} {response?.StatusDescription}");
+
+            using (var sr = new StreamReader(responseStream))
+            {
+               Trace.WriteLine(sr.ReadToEnd());
+            }
+
+            sw.Stop();
+         }
+
+         return sw.ElapsedMilliseconds;
+      }
+
+   }
 }
