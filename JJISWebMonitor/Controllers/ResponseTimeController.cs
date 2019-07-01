@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace JJISWebMonitor.Controllers
@@ -16,8 +13,11 @@ namespace JJISWebMonitor.Controllers
          var webRequest = (HttpWebRequest)WebRequest.Create(new Uri("https://www.jjis.oregon.gov/staticcontent/connectivitytest.html"));
 
          var sw = Stopwatch.StartNew();
-
+         
          var response = (HttpWebResponse)webRequest.GetResponse();
+         if (response.StatusCode != HttpStatusCode.OK)
+            return $"Error: HTTP Status was {response.StatusCode} {response.StatusDescription}";
+
          using (var responseStream = response.GetResponseStream())
          {
             if (responseStream == null)
