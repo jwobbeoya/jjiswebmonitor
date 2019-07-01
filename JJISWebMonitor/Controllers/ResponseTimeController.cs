@@ -13,24 +13,28 @@ namespace JJISWebMonitor.Controllers
          var webRequest = (HttpWebRequest)WebRequest.Create(new Uri("https://www.jjis.oregon.gov/staticcontent/connectivitytest.html"));
 
          var sw = Stopwatch.StartNew();
-         
-         var response = (HttpWebResponse)webRequest.GetResponse();
-         if (response.StatusCode != HttpStatusCode.OK)
-            return $"Error: HTTP Status was {response.StatusCode} {response.StatusDescription}";
 
-         using (var responseStream = response.GetResponseStream())
+         try
          {
-            if (responseStream == null)
-               return $"Response was null.  Response: {response.StatusCode} {response.StatusDescription}";
-
-            using (var sr = new StreamReader(responseStream))
+            var response = (HttpWebResponse)webRequest.GetResponse();
+            using (var responseStream = response.GetResponseStream())
             {
-               sr.ReadToEnd();
-            }
+               if (responseStream == null)
+                  return $"Response was null.  Response: {response?.StatusCode} {response?.StatusDescription}";
 
+               using (var sr = new StreamReader(responseStream))
+               {
+                  Trace.WriteLine(sr.ReadToEnd());
+               }
+
+               sw.Stop();
+            }
+         }
+         catch (WebException ex)
+         {
+            return $"{ex.Message}";
          }
 
-         sw.Stop();
 
          return $"{sw.ElapsedMilliseconds} ms";
       }
