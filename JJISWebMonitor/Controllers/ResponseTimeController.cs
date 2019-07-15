@@ -23,6 +23,7 @@ namespace JJISWebMonitor.Controllers
       private long MeasureRequestTime(string uri)
       {
          var webRequest = (HttpWebRequest)WebRequest.Create(new Uri(uri));
+
          var sw = Stopwatch.StartNew();
          var response = (HttpWebResponse)webRequest.GetResponse();
          using (var responseStream = response.GetResponseStream())
