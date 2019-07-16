@@ -16,14 +16,21 @@ namespace JJISWebMonitor
       {
          using (var client = new TcpClient())
          {
-            var task = client.ConnectAsync(host, port);
-            var sw = Stopwatch.StartNew();
+            try
+            {
+               var task = client.ConnectAsync(host, port);
+               var sw = Stopwatch.StartNew();
 
-            if (!task.Wait(timeout))
-               throw new Exception("Timeout opening port");
+               if (!task.Wait(timeout))
+                  throw new Exception("Timeout opening port");
 
-            sw.Stop();
-            return sw.ElapsedMilliseconds;
+               sw.Stop();
+               return sw.ElapsedMilliseconds;
+            }
+            finally
+            {
+               client.Close();
+            }
          }
       }
 
