@@ -11,6 +11,12 @@
    }
 }
 
+function pageLoaded() {
+   var host = new URLSearchParams(document.location.search).get("host");
+   if (host !== null && host !== '')
+      document.querySelector("#host").value = host;
+}
+
 function clearOutput() {
    var output = document.querySelector('#output');
    output.innerHTML = "";
