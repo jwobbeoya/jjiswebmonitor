@@ -62,17 +62,19 @@ namespace JJISWebMonitor
             webRequest.ReadWriteTimeout = Timeout;
             webRequest.ContinueTimeout = Timeout / 10;
 
-            var response = (HttpWebResponse)webRequest.GetResponse();
-            using (var responseStream = response.GetResponseStream())
+            using (var response = (HttpWebResponse) webRequest.GetResponse())
             {
-               if (responseStream == null)
-                  throw new Exception(
-                     $"Response was null.  Response: {response?.StatusCode} {response?.StatusDescription}");
-
-               using (var sr = new StreamReader(responseStream))
+               using (var responseStream = response.GetResponseStream())
                {
-                  if (sr.ReadToEnd().Length < 1)
-                     throw new Exception("Empty Response");
+                  if (responseStream == null)
+                     throw new Exception(
+                        $"Response was null.  Response: {response?.StatusCode} {response?.StatusDescription}");
+
+                  using (var sr = new StreamReader(responseStream))
+                  {
+                     if (sr.ReadToEnd().Length < 1)
+                        throw new Exception("Empty Response");
+                  }
                }
             }
          }
