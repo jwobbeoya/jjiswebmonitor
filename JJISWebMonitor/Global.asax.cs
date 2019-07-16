@@ -24,6 +24,8 @@ namespace JJISWebMonitor
       {
          try
          {
+            Store.LastCheck = DateTimeOffset.Now;
+
             var webRequest =
                (HttpWebRequest) WebRequest.Create(
                   new Uri("https://www.jjis.oregon.gov/staticcontent/connectivitytest.html"));

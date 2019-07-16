@@ -8,7 +8,6 @@ namespace JJISWebMonitor.Controllers
    public class OutageController : ApiController
    {
       [HttpGet]
-      //[Route("List")]
       public IList<Outage> List()
       {
          return Store.GetOutages();
@@ -18,6 +17,12 @@ namespace JJISWebMonitor.Controllers
       public DateTimeOffset StartTime()
       {
          return Store.StartTime;
+      }
+
+      [HttpGet]
+      public DateTimeOffset LastCheckTime()
+      {
+         return Store.LastCheck;
       }
 
       [HttpGet]

@@ -6,6 +6,7 @@ namespace JJISWebMonitor.Model
    public static class Store
    {
       public static DateTimeOffset StartTime;
+      public static DateTimeOffset LastCheck;
       private static IList<Outage> _outages;
 
       static Store()
