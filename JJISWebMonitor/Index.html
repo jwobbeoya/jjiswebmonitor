@@ -6,11 +6,12 @@
     <title>Measure Connection Time</title>
 </head>
 <body>
-<div>
-   <label>Host</label>
-   <input id="host" size="50"/>
-   <button type="button" onclick="measure()">Fetch</button>
-</div>   
+   <div>
+      <label>Host</label>
+      <input id="host" size="50" value="www.google.com" />
+      <button type="button" onclick="measure()">Fetch</button>
+      <button type="button" onclick="clearOutput()">Clear</button>
+   </div>   
 <h3>Results</h3>
 <div id="output"></div>
 <script src="script.js"></script>

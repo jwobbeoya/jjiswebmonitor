@@ -4,3 +4,8 @@
    var output = document.querySelector('#output');
    output.innerHTML = output.innerHTML + `<div>${await response.json()}</div>`;
 }
+
+function clearOutput() {
+   var output = document.querySelector('#output');
+   output.innerHTML = "";
+}
