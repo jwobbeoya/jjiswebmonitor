@@ -19,7 +19,7 @@ namespace JJISWebMonitor
       {
          GlobalConfiguration.Configure(WebApiConfig.Register);
          Timer.Elapsed += Timer_Elapsed;
-         Timer.Start();
+         //Timer.Start();
       }
 
       private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -32,15 +32,7 @@ namespace JJISWebMonitor
       {
          try
          {
-            using (var client = new TcpClient())
-            {
-               var task = client.ConnectAsync(domain, 443);
-
-               if (!task.Wait(200))
-               {
-                  Store.AddOutage(new Outage("Timeout opening port"));
-               }
-            }
+            NetworkUtil.MeasureOpenPort(domain, 443, 200);
          }
          catch (Exception ex)
          {
@@ -53,30 +45,7 @@ namespace JJISWebMonitor
          try
          {
             Store.LastCheck = DateTimeOffset.Now;
-
-            var webRequest =
-               (HttpWebRequest)WebRequest.Create(
-                  new Uri($"https://{domain}/staticcontent/connectivitytest.html?{DateTime.Now.Ticks}"));
-
-            webRequest.Timeout = Timeout;
-            webRequest.ReadWriteTimeout = Timeout;
-            webRequest.ContinueTimeout = Timeout / 10;
-
-            using (var response = (HttpWebResponse) webRequest.GetResponse())
-            {
-               using (var responseStream = response.GetResponseStream())
-               {
-                  if (responseStream == null)
-                     throw new Exception(
-                        $"Response was null.  Response: {response?.StatusCode} {response?.StatusDescription}");
-
-                  using (var sr = new StreamReader(responseStream))
-                  {
-                     if (sr.ReadToEnd().Length < 1)
-                        throw new Exception("Empty Response");
-                  }
-               }
-            }
+            NetworkUtil.MeasureHttpRequest($"https://{domain}/staticcontent/connectivitytest.html?{DateTime.Now.Ticks}", 500);
          }
          catch (Exception ex)
          {

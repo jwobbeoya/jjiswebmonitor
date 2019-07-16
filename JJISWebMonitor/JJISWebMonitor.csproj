@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="Model\Outage.cs" />
     <Compile Include="Model\Store.cs" />
+    <Compile Include="NetworkUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

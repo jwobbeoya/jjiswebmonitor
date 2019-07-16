@@ -8,11 +8,12 @@ namespace JJISWebMonitor.Controllers
 {
    public class ResponseTimeController : ApiController
    {
-      public string GetResponseTime([FromUri] string uri)
+      [HttpGet]
+      public string Http([FromUri] string uri)
       {     
          try
          {
-            return $"{MeasureRequestTime(uri)} ms";
+            return $"{NetworkUtil.MeasureHttpRequest(uri)} ms";
          }
          catch (Exception ex)
          {
@@ -20,27 +21,17 @@ namespace JJISWebMonitor.Controllers
          }
       }
 
-      private long MeasureRequestTime(string uri)
+      [HttpGet]
+      public string Connect([FromUri] string host)
       {
-         var webRequest = (HttpWebRequest)WebRequest.Create(new Uri(uri));
-
-         var sw = Stopwatch.StartNew();
-         var response = (HttpWebResponse)webRequest.GetResponse();
-         using (var responseStream = response.GetResponseStream())
+         try
          {
-            if (responseStream == null)
-               throw new Exception($"Response was null.  Response: {response?.StatusCode} {response?.StatusDescription}");
-
-            using (var sr = new StreamReader(responseStream))
-            {
-               Trace.WriteLine(sr.ReadToEnd());
-            }
-
-            sw.Stop();
+            return $"{NetworkUtil.MeasureOpenPort(host)} ms";
          }
-
-         return sw.ElapsedMilliseconds;
+         catch (Exception ex)
+         {
+            return $"{ex.Message}";
+         }
       }
-
    }
 }
