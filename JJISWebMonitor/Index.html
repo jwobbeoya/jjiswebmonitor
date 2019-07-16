@@ -4,15 +4,34 @@
 <head>
     <meta charset="utf-8" />
     <title>Measure Connection Time</title>
+    <style>
+       label {
+          display: block;
+          font-weight: bold;
+       }
+    </style>
 </head>
 <body onload="pageLoaded()">
+<h3>Connectivity Tester</h3>
+<fieldset>
    <div>
-      <label>Host</label>
-      <input id="host" size="50" value="www.google.com" />
+      <label for="host">Host</label>
+      <input id="host" size="30" value="www.google.com"/>
+   </div>
+   <div>
+      <label for="port">Port</label>
+      <input id="port" size="5" value="443"/>
+   </div>
+   <div>
+      <label>Timeout</label>
+      <input id="timeout" size="5" value="5000"/>
+   </div>
+   <div>
+      <hr/>
       <button id="btnFetch" type="button" onclick="measure()">Fetch</button>
       <button type="button" onclick="clearOutput()">Clear</button>
-   </div>   
-<h3>Results</h3>
+   </div>
+</fieldset>
 <div id="output"></div>
 <script src="script.js"></script>
 </body>

@@ -22,11 +22,11 @@ namespace JJISWebMonitor.Controllers
       }
 
       [HttpGet]
-      public string Connect([FromUri] string host)
+      public string Connect([FromUri] string host, [FromUri] int port = 443, int timeout = 5000)
       {
          try
          {
-            return $"{NetworkUtil.MeasureOpenPort(host)} ms";
+            return $"{NetworkUtil.MeasureOpenPort(host, port, timeout)} ms";
          }
          catch (Exception ex)
          {
