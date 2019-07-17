@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Web.Http;
 
 namespace JJISWebMonitor.Controllers
@@ -30,7 +31,15 @@ namespace JJISWebMonitor.Controllers
          }
          catch (Exception ex)
          {
-            return $"{ex.Message}";
+            var currentException = ex;
+            var sb = new StringBuilder();
+            while (currentException != null)
+            {
+               sb.Append(currentException.Message + " ");
+               currentException = currentException.InnerException;
+            }
+
+            return sb.ToString();
          }
       }
    }
