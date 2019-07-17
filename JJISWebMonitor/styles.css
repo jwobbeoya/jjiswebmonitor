@@ -10,3 +10,7 @@ input[type=text] {
 input[type=number] {
    width: 7em;
 }
+
+input[type=submit] {
+   width: 9em;
+}
