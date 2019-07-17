@@ -1,4 +1,5 @@
 ﻿async function measure() {
+   event.preventDefault();
    var button = document.querySelector("#btnFetch");
    try {
       button.disabled = "disabled";

@@ -12,17 +12,27 @@ namespace JJISWebMonitor
 {
    public class NetworkUtil
    {
+      private const int MaxTimeout = 120000;
+
       public static long MeasureOpenPort(string host, int port = 443, int timeout = 5000)
       {
+         timeout = Math.Min(timeout, MaxTimeout);
+
          using (var client = new TcpClient())
          {
             try
             {
-               var task = client.ConnectAsync(host, port);
                var sw = Stopwatch.StartNew();
+               var result = client.BeginConnect(host, port, ar =>
+               {
+                  if (!ar.IsCompleted)
+                     throw new Exception("Failed to open a connection.");
+               }, null);
 
-               if (!task.Wait(timeout))
-                  throw new Exception("Timeout opening port");
+               if (!result.AsyncWaitHandle.WaitOne(timeout))
+                  throw new Exception("Timeout opening port.");
+
+               client.EndConnect(result);
 
                sw.Stop();
                return sw.ElapsedMilliseconds;

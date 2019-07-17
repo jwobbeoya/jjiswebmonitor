@@ -1,0 +1,12 @@
+﻿label {
+   display: block;
+   font-weight: bold;
+}
+
+input[type=text] {
+   width: 18em;
+}
+
+input[type=number] {
+   width: 7em;
+}
