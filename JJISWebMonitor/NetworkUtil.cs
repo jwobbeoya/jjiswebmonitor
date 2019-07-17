@@ -22,17 +22,11 @@ namespace JJISWebMonitor
          {
             try
             {
+               var task = client.ConnectAsync(host, port);
                var sw = Stopwatch.StartNew();
-               var result = client.BeginConnect(host, port, ar =>
-               {
-                  if (!ar.IsCompleted)
-                     throw new Exception("Failed to open a connection.");
-               }, null);
 
-               if (!result.AsyncWaitHandle.WaitOne(timeout))
-                  throw new Exception("Timeout opening port.");
-
-               client.EndConnect(result);
+               if (!task.Wait(timeout))
+                  throw new Exception("Timeout opening port");
 
                sw.Stop();
                return sw.ElapsedMilliseconds;
