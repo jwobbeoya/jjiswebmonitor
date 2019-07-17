@@ -17,9 +17,15 @@
 }
 
 function pageLoaded() {
-   var host = new URLSearchParams(document.location.search).get("host");
-   if (host !== null && host !== '')
-      document.querySelector("#host").value = host;
+   setInputFromQuery("host");
+   setInputFromQuery("port");
+}
+
+function setInputFromQuery(name) {
+   var value = new URLSearchParams(document.location.search).get(name);
+   if (value !== null && value !== '')
+      document.querySelector("#" + name).value = value;
+   
 }
 
 function clearOutput() {
