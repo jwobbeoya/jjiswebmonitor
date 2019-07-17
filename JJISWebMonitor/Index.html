@@ -9,31 +9,29 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body onload="pageLoaded()">
-<h3>Connectivity Tester</h3>
-
-<fieldset>
-   <form onsubmit="measure()">
-      <div>
-         <label for="host">Host</label>
-         <input id="host" type="text" value="www.google.com" required />
-      </div>
-      <div>
-         <label for="port">Port</label>
-         <input id="port"  type="number" value="443" min="0" required />
-      </div>
-      <div>
-         <label>Timeout</label>
-         <input id="timeout" type="number" value="5000" min="0" max="120000" required />
-      </div>
-      <div>
-         <hr />
-         <input id="btnFetch" type="submit" value="Connect">
-         <button type="button" onclick="clearOutput()">Clear</button>
-      </div>
-   </form>
-</fieldset>
-<fieldset id="output"></fieldset>
-   
+   <h3>Connectivity Tester</h3>
+   <fieldset>
+      <form onsubmit="measure()">
+         <div>
+            <label for="host">Host</label>
+            <input id="host" type="text" value="www.google.com" required />
+         </div>
+         <div>
+            <label for="port">Port</label>
+            <input id="port"  type="number" value="443" min="0" required />
+         </div>
+         <div>
+            <label>Timeout</label>
+            <input id="timeout" type="number" value="3000" min="0" max="30000" required />
+         </div>
+         <div>
+            <hr />
+            <input id="btnFetch" type="submit" value="Connect">
+            <button type="button" onclick="clearOutput()">Clear</button>
+         </div>
+      </form>
+   </fieldset>
+   <fieldset id="output"></fieldset>
    <script src="script.js"></script>
 </body>
 </html>

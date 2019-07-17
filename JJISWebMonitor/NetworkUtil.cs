@@ -12,7 +12,7 @@ namespace JJISWebMonitor
 {
    public class NetworkUtil
    {
-      private const int MaxTimeout = 120000;
+      private const int MaxTimeout = 30000;
 
       public static long MeasureOpenPort(string host, int port = 443, int timeout = 5000)
       {
