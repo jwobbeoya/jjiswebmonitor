@@ -4,8 +4,13 @@
 }
 
 input[type=text] {
-   width: 18em;
+   width: 15em;
 }
+
+input[type=text].uri {
+   width: 30em;
+}
+
 
 input[type=number] {
    width: 7em;

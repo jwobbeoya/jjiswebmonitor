@@ -3,7 +3,7 @@
    var button = document.querySelector("#btnFetch");
    try {
       button.disabled = "disabled";
-      button.value = "Fetch";
+      button.value = "Fetching ...";
       var uri = document.querySelector("#uri").value;
       var response = await fetch(`/api/responsetime/http?uri=${uri}`);
       var output = document.querySelector('#output');

@@ -3,7 +3,7 @@
    var button = document.querySelector("#btnFetch");
    try {
       button.disabled = "disabled";
-      button.value = "Connecting";
+      button.value = "Connecting ...";
       var host = document.querySelector("#host").value;
       var port = document.querySelector("#port").value;
       var timeout = document.querySelector("#timeout").value;
