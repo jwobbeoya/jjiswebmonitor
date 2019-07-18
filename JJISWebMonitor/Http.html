@@ -18,6 +18,10 @@
             <input id="uri" type="text" class="uri" value="https://www.google.com" required/>
          </div>
          <div>
+            <label>Timeout</label>
+            <input id="timeout" type="number" value="3000" min="1" max="30000" required />
+         </div>
+         <div>
             <hr/>
             <input id="btnFetch" type="submit" value="Fetch">
             <button type="button" onclick="clearOutput()">Clear</button>

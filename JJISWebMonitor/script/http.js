@@ -5,7 +5,8 @@
       button.disabled = "disabled";
       button.value = "Fetching ...";
       var uri = document.querySelector("#uri").value;
-      var response = await fetch(`/api/responsetime/http?uri=${uri}`);
+      var timeout = document.querySelector("#timeout").value;
+      var response = await fetch(`/api/responsetime/http?uri=${uri}&timeout=${timeout}`);
       var output = document.querySelector('#output');
       output.innerHTML = output.innerHTML + `<div>${await response.json()} - ${uri}</div>`;
    } finally {

@@ -10,11 +10,11 @@ namespace JJISWebMonitor.Controllers
    public class ResponseTimeController : ApiController
    {
       [HttpGet]
-      public string Http([FromUri] string uri)
+      public string Http([FromUri] string uri, int timeout = 5000)
       {     
          try
          {
-            return $"{NetworkUtil.MeasureHttpRequest(uri)} ms";
+            return $"{NetworkUtil.MeasureHttpRequest(uri, timeout)} ms";
          }
          catch (Exception ex)
          {
