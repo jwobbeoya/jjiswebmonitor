@@ -45,34 +45,37 @@ namespace JJISWebMonitor
 
          var webRequest = CreateWebRequest(url, timeout);
 
-         var sw = Stopwatch.StartNew();
+         var sw = new Stopwatch();
          try
          {
-
+            sw.Start();
             using (var response = (HttpWebResponse) webRequest.GetResponse())
             {
                using (var responseStream = response.GetResponseStream())
                {
-                  if (responseStream == null)
-                     throw new Exception(
-                        $"Response was null.  Response: {response?.StatusCode} {response?.StatusDescription}");
-
                   using (var sr = new StreamReader(responseStream))
                   {
-                     if (sr.ReadToEnd().Length < 1)
+                     var content = sr.ReadToEnd();
+
+                     sw.Stop();
+
+                     if (sw.ElapsedMilliseconds > timeout)
+                        throw new Exception("The operation has timed out.");
+
+                     if (content.Length < 1)
                         throw new Exception("Empty Response");
                   }
+
                }
             }
-
          }
          catch (WebException ex)
          {
             if (ex.Status == WebExceptionStatus.RequestCanceled)
                throw new Exception("The operation has timed out.");
-         }
 
-         sw.Stop();
+            throw;
+         }
 
          return sw.ElapsedMilliseconds;
       }
