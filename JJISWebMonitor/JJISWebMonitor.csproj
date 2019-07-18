@@ -110,8 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Http.html" />
     <Content Include="Index.html" />
-    <Content Include="script.js" />
+    <Content Include="script\http.js" />
+    <Content Include="script\port.js" />
     <Content Include="styles.css" />
     <Content Include="Web.config" />
   </ItemGroup>
