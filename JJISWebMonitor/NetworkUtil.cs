@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Cache;
 using System.Net.Sockets;
 using System.Web;
 using JJISWebMonitor.Model;
@@ -40,11 +41,7 @@ namespace JJISWebMonitor
 
       public static long MeasureHttpRequest(string url, int timeout = 5000)
       {
-         var webRequest = (HttpWebRequest) WebRequest.Create(new Uri(url));
-
-         webRequest.Timeout = timeout;
-         webRequest.ReadWriteTimeout = timeout;
-         webRequest.ContinueTimeout = timeout / 10;
+         var webRequest = CreateWebRequest(url, timeout);
 
          var sw = Stopwatch.StartNew();
          using (var response = (HttpWebResponse) webRequest.GetResponse())
@@ -65,6 +62,19 @@ namespace JJISWebMonitor
 
          sw.Stop();
          return sw.ElapsedMilliseconds;
+      }
+
+      public static HttpWebRequest CreateWebRequest(string url, int timeout)
+      {
+         var webRequest = (HttpWebRequest)WebRequest.Create(new Uri(url));
+
+         webRequest.Timeout = timeout;
+         webRequest.ReadWriteTimeout = timeout;
+         webRequest.ContinueTimeout = timeout / 10;
+         webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+         webRequest.KeepAlive = false;
+
+         return webRequest;
       }
    }
 }
