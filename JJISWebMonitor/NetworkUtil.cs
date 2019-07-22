@@ -15,9 +15,9 @@ namespace JJISWebMonitor
    public class NetworkUtil
    {
       private const int MaxTimeout = 30000;
-      private const int Overhead = 1;
+      private const int Overhead = 7500;
 
-      public static async Task<long> MeasureOpenPort(string host, int port = 443, int timeout = 5000)
+      public static async Task<float> MeasureOpenPort(string host, int port = 443, int timeout = 5000)
       {
          timeout = Math.Min(timeout, MaxTimeout);
 
@@ -35,12 +35,12 @@ namespace JJISWebMonitor
                }
 
                sw.Stop();
-               var time = Math.Max(sw.ElapsedMilliseconds - Overhead, 1); 
+               var time = (float) (sw.ElapsedTicks - Overhead) / 10000;
 
                if (time > timeout)
                   throw new TimeoutException();
 
-               return time;
+               return (float) Math.Round(time, 2);
             }
             finally
             {

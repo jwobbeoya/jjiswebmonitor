@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -51,7 +47,7 @@ namespace JJISWebMonitor.Controllers
       public async Task<string> AverageConnect([FromUri] string host, [FromUri] int port = 443, int connections = 10, int timeout = 5000)
       {
          connections = Math.Min(connections, MaxConnections);
-         var totalTime = 0L;
+         var totalTime = 0F;
          var successCount = 0;
          var timeouts = 0;
          var error = string.Empty;
@@ -78,7 +74,7 @@ namespace JJISWebMonitor.Controllers
          if (successCount == 0)
             return $"All connections failed. {error}";
 
-         var average = (float) totalTime / successCount;
+         var average = Math.Round(totalTime / successCount, 2);
          var timeoutText = timeouts == 1
             ? "timeout"
             : "timeouts";
