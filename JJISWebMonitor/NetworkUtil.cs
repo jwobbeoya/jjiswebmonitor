@@ -15,6 +15,7 @@ namespace JJISWebMonitor
    public class NetworkUtil
    {
       private const int MaxTimeout = 30000;
+      private const int Overhead = 1;
 
       public static async Task<long> MeasureOpenPort(string host, int port = 443, int timeout = 5000)
       {
@@ -34,10 +35,12 @@ namespace JJISWebMonitor
                }
 
                sw.Stop();
-               if (sw.ElapsedMilliseconds > timeout)
+               var time = Math.Max(sw.ElapsedMilliseconds - Overhead, 1); 
+
+               if (time > timeout)
                   throw new TimeoutException();
 
-               return sw.ElapsedMilliseconds;
+               return time;
             }
             finally
             {

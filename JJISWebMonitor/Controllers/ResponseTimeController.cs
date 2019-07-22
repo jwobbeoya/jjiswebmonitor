@@ -11,7 +11,7 @@ namespace JJISWebMonitor.Controllers
 {
    public class ResponseTimeController : ApiController
    {
-      public const int MaxConnects = 50;
+      public const int MaxConnections = 100;
 
       [HttpGet]
       public string Http([FromUri] string uri, int timeout = 5000)
@@ -50,6 +50,7 @@ namespace JJISWebMonitor.Controllers
       [HttpGet]
       public async Task<string> AverageConnect([FromUri] string host, [FromUri] int port = 443, int connections = 10, int timeout = 5000)
       {
+         connections = Math.Min(connections, MaxConnections);
          var totalTime = 0L;
          var successCount = 0;
          var timeouts = 0;
@@ -77,7 +78,7 @@ namespace JJISWebMonitor.Controllers
          if (successCount == 0)
             return $"All connections failed. {error}";
 
-         var average = totalTime / successCount;
+         var average = (float) totalTime / successCount;
          var timeoutText = timeouts == 1
             ? "timeout"
             : "timeouts";
