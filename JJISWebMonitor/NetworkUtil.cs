@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Cache;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 using System.Web;
 using JJISWebMonitor.Model;
 
@@ -15,7 +16,7 @@ namespace JJISWebMonitor
    {
       private const int MaxTimeout = 30000;
 
-      public static long MeasureOpenPort(string host, int port = 443, int timeout = 5000)
+      public static async Task<long> MeasureOpenPort(string host, int port = 443, int timeout = 5000)
       {
          timeout = Math.Min(timeout, MaxTimeout);
 
@@ -23,13 +24,19 @@ namespace JJISWebMonitor
          {
             try
             {
-               var task = client.ConnectAsync(host, port);
-               var sw = Stopwatch.StartNew();
+               var connectTask = client.ConnectAsync(host, port);
+               var timeoutTask = Task.Delay(timeout);
 
-               if (!task.Wait(timeout))
-                  throw new Exception("Timeout opening port");
+               var sw = Stopwatch.StartNew();
+               if (await Task.WhenAny(connectTask, timeoutTask) == timeoutTask)
+               {
+                  throw new TimeoutException();
+               }
 
                sw.Stop();
+               if (sw.ElapsedMilliseconds > timeout)
+                  throw new TimeoutException();
+
                return sw.ElapsedMilliseconds;
             }
             finally

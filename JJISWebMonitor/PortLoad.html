@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta charset="utf-8" />
+   <title>Measure Connection Time</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+   <link rel="stylesheet" type="text/css" href="styles.css">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body onload="pageLoaded()">
+   <h3>Connectivity Tester</h3>
+   <fieldset>
+      <form onsubmit="measure()">
+         <div>
+            <label for="host">Host</label>
+            <input id="host" type="text" value="www.google.com" required />
+         </div>
+         <div>
+            <label for="port">Port</label>
+            <input id="port"  type="number" value="443" min="1" required />
+         </div>
+         <div>
+            <label for="connections">Connections</label>
+            <input id="connections" type="number" value="10" min="1" max="50" required />
+         </div>
+         <div>
+            <label for="timeout">Timeout</label>
+            <input id="timeout" type="number" value="3000" min="1" max="30000" required />
+         </div>
+         <div>
+            <hr />
+            <input id="btnFetch" type="submit" value="Connect">
+            <button type="button" onclick="clearOutput()">Clear</button>
+         </div>
+      </form>
+   </fieldset>
+   <fieldset id="output"></fieldset>
+   <script src="/script/portLoad.js"></script>
+</body>
+</html>
