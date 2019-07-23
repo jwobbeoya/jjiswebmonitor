@@ -19,7 +19,7 @@ namespace JJISWebMonitor
       public static async Task<float> MeasureOpenPort(string host, int port = 443, int timeout = 5000)
       {
          timeout = Math.Min(timeout, MaxTimeout);
-         var wait = (int) Math.Round(timeout * 1.1) + 50;  // Pad the wait a little so we don't give premature timeouts
+         var wait = (int) Math.Round(timeout * 1.1) + 75;  // Pad the wait a little so we don't give premature timeouts
 
          using (var client = new TcpClient())
          {
