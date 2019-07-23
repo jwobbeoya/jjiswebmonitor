@@ -52,23 +52,25 @@ namespace JJISWebMonitor.Controllers
          var timeouts = 0;
          var error = string.Empty;
 
-         try
+         for (var i = 0; i < connections; i++)
          {
-            for (var i = 0; i < connections; i++)
+            try
             {
+
                var time = await NetworkUtil.MeasureOpenPort(host, port, timeout);
                totalTime += time;
                successCount++;
             }
-         }
-         catch (TimeoutException ex)
-         {
-            timeouts++;
-            error = ex.Message;
-         }
-         catch (Exception ex)
-         {
-            error = ex.Message;
+
+            catch (TimeoutException ex)
+            {
+               timeouts++;
+               error = ex.Message;
+            }
+            catch (Exception ex)
+            {
+               error = ex.Message;
+            }
          }
 
          if (successCount == 0)
